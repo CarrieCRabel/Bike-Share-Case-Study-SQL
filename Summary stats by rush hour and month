@@ -1,0 +1,11 @@
+SELECT 
+    month, 
+    rush_hour, 
+    member_casual, 
+    COUNT(ride_id) as num_rides, 
+    EXTRACT(HOUR FROM AVG(trip_duration))*60 + EXTRACT(MINUTE FROM AVG(trip_duration)) AS avg_duration_minutes 
+    
+FROM `case-study-cyclistic-346513.trip_data_clean.12_months_rush` 
+
+GROUP BY month, rush_hour, member_casual
+ORDER BY month, rush_hour, member_casual DESC
