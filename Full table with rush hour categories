@@ -1,0 +1,31 @@
+SELECT 
+    *,
+    EXTRACT(MONTH from started_at) as month,
+    EXTRACT(DAY from started_at) as day,
+    EXTRACT(DAYOFWEEK from started_at) as start_day, 
+    EXTRACT(HOUR from started_at) as start_hour,
+    (ended_at - started_at) as trip_duration,
+
+CASE
+    WHEN EXTRACT(HOUR from started_at) >= 7 
+        AND EXTRACT(HOUR from started_at) < 9 
+        AND EXTRACT(DAYOFWEEK from started_at) != 1 
+        AND EXTRACT(DAYOFWEEK from started_at) != 7 THEN 'rush hour am' 
+    WHEN EXTRACT(HOUR from started_at) >= 15
+        AND EXTRACT(HOUR from started_at) < 19 
+        AND EXTRACT(DAYOFWEEK from started_at) != 1 
+        AND EXTRACT(DAYOFWEEK from started_at) != 7 THEN 'rush hour pm' 
+    WHEN EXTRACT(HOUR from started_at) >= 9
+        AND EXTRACT(HOUR from started_at) < 15 
+        AND EXTRACT(DAYOFWEEK from started_at) != 1 
+        AND EXTRACT(DAYOFWEEK from started_at) != 7 THEN 'midday, weekday' 
+    WHEN EXTRACT(HOUR from started_at) >= 19
+        OR EXTRACT(HOUR from started_at) < 7 THEN 'night' 
+    WHEN EXTRACT(DAYOFWEEK from started_at) = 1 
+        OR EXTRACT(DAYOFWEEK from started_at) = 7 THEN 'weekend' 
+    ELSE 'null'
+END AS rush_hour
+
+FROM `case-study-cyclistic-346513.trip_data_clean.12_months` 
+
+ORDER BY started_at
