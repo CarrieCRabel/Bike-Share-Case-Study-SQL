@@ -1,0 +1,11 @@
+SELECT 
+  month, 
+  member_casual,
+  COUNT(ride_id) as num_rides, 
+  AVG(CAST(trip_duration AS INTERVAL)) AS avg_duration, 
+  MAX(trip_duration) as max_duration, 
+
+FROM `case-study-cyclistic-346513.trip_data_clean.12_months` 
+
+GROUP BY month, member_casual
+ORDER BY month, member_casual
