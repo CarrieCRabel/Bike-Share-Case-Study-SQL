@@ -1,0 +1,9 @@
+SELECT 
+  start_day, 
+  member_casual, 
+  COUNT(ride_id) as num_rides, 
+  AVG(trip_duration) AS avg_duration
+FROM `case-study-cyclistic-346513.trip_data_clean.12_months_rush` 
+
+GROUP BY start_day, member_casual
+ORDER BY start_day, member_casual
